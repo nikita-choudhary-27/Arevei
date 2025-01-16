@@ -81,7 +81,7 @@ const Navbar: React.FC = () => {
 
       {/* Mobile Hamburger Button */}
       {!isMenuOpen ?  (
-        <button className="md:hidden text-white" onClick={toggleMenu}>
+        <button className="md:hidden text-black dark:text-white" onClick={toggleMenu}>
           <svg
             className="w-8 h-8"
             fill="none"
@@ -101,7 +101,7 @@ const Navbar: React.FC = () => {
 
       {/* Mobile Close Button */}
       <button
-        className={`md:hidden opacity-30 text-white ${
+        className={`md:hidden opacity-30 dark:text-white text-black ${
           isMenuOpen ? "block" : "hidden"
         }`}
         onClick={toggleMenu}
