@@ -14,7 +14,7 @@ const TestimonialsSection: React.FC = () => {
           results. We specialize in crafting unique brand experiences.
         </p>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
         {[...Array(6)].map((_, index) => (
           <div
             key={index}
@@ -25,7 +25,7 @@ const TestimonialsSection: React.FC = () => {
               business. Their team truly understands our brand and has helped us
               to refine our message."
             </p>
-            <div className="flex items-center gap-4 ">
+            <div className="flex items-center gap-4">
               <img
                 src={test}
                 alt="John Doe"

@@ -4,17 +4,13 @@ const Footer: React.FC = () => {
   return (
     <footer className="bg-black text-gray-200 py-12 px-4 md:px-10">
       <div className="flex flex-col md:flex-row gap-8 justify-between text-center md:text-left px-4 md:px-14">
-        <div className="flex flex-col items-center md:items-start max-w-xs">
+        <div className="flex flex-col items-center md:items-start max-w-xs mx-auto md:mx-0">
           <div>
-            <img
-              src="/logo.png"
-              alt="Logo"
-              className="h-12 mb-4 p-2 mx-auto md:mx-0"
-            />
-            <h2 className="text-lg font-semibold mb-2">
+            <img src="/logo.png" alt="Logo" className="h-12 mb-4 p-2 mx-auto" />
+            <h2 className="text-lg font-semibold mb-2 text-center md:text-left">
               Your Brand Companion Till The Success
             </h2>
-            <p className="text-sm text-gray-400">
+            <p className="text-sm text-gray-400 text-center md:text-left">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi
               blanditiis.
             </p>

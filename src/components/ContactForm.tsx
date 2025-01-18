@@ -44,15 +44,15 @@ const ContactForm: React.FC = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto py-10 px-4 dark:bg-[#1c1c1c] dark:text-white">
-      <h1 className="text-3xl font-bold text-center mb-4">
+    <div className="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8 dark:bg-[#1c1c1c] dark:text-white">
+      <h1 className="text-3xl font-bold text-center mb-6">
         Message Us Directly
       </h1>
       <p className="text-center text-gray-600 mb-8 dark:text-gray-400">
         We will get back to you within{" "}
         <span className="font-bold dark:text-lime-500">24 hours</span>
       </p>
-      <form className="space-y-6 mb-9" onSubmit={handleSubmit}>
+      <form className="space-y-6" onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">
@@ -61,7 +61,7 @@ const ContactForm: React.FC = () => {
             <input
               type="text"
               name="firstName"
-              placeholder="eg. John"
+              placeholder="e.g., John"
               value={formData.firstName}
               onChange={handleChange}
               required
@@ -75,7 +75,7 @@ const ContactForm: React.FC = () => {
             <input
               type="text"
               name="lastName"
-              placeholder="eg. Doe"
+              placeholder="e.g., Doe"
               value={formData.lastName}
               onChange={handleChange}
               required
@@ -90,7 +90,7 @@ const ContactForm: React.FC = () => {
           <input
             type="email"
             name="email"
-            placeholder="eg. example@gmail.com"
+            placeholder="e.g., example@gmail.com"
             value={formData.email}
             onChange={handleChange}
             required
@@ -111,16 +111,18 @@ const ContactForm: React.FC = () => {
             rows={5}
           ></textarea>
         </div>
-        <div>
+        <div className="flex justify-center">
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-30 bg-lime-500 text-black py-2 px-4 rounded-full hover:bg-lime-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+            className="w-full sm:w-auto bg-lime-500 text-black py-2 px-6 rounded-full hover:bg-lime-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
           >
             {isSubmitting ? "Sending..." : "Submit Now"}
           </button>
         </div>
-        {feedback && <p className="text-center mt-4">{feedback}</p>}
+        {feedback && (
+          <p className="text-center mt-4 text-sm font-medium">{feedback}</p>
+        )}
       </form>
     </div>
   );

@@ -13,8 +13,12 @@ const TeamSection: React.FC = () => {
           {/* Image Section */}
           <div className="lg:w-1/2 flex justify-center">
             <div className="relative w-full max-w-lg">
-              <img src={c1} alt="Collaborative Team" className="rounded-xl" />
-              <div className="absolute top-4 left-24 bg-white text-gray-900 py-2 px-4 rounded-full shadow border dark:text-white dark:bg-[#1c1c1c] dark:border-white">
+              <img
+                src={c1}
+                alt="Collaborative Team"
+                className="rounded-xl w-full object-cover "
+              />
+              <div className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-white text-gray-900 py-2 px-4 rounded-full shadow border dark:text-white dark:bg-[#1c1c1c] dark:border-white">
                 100+ Satisfied Clients
               </div>
             </div>
@@ -65,22 +69,22 @@ const TeamSection: React.FC = () => {
           </div>
         </div>
 
-        {/* Grid Section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+        {/* Horizontal Layout for Images */}
+        <div className="flex items-center justify-center gap-4 mt-8">
           <img
             src={c2}
             alt="Collaboration 2"
-            className="rounded-lg w-full h-80 object-cover"
+            className="rounded-lg w-1/4 h-40 lg:h-80 object-cover"
           />
           <img
             src={c3}
             alt="Collaboration 3"
-            className="rounded-lg w-full h-80 object-cover"
+            className="rounded-lg w-1/4 h-40 lg:h-80 object-cover"
           />
           <img
             src={c4}
             alt="Collaboration 4"
-            className="rounded-lg w-full h-80 object-cover"
+            className="rounded-lg w-1/4 h-40 lg:h-80 object-cover"
           />
         </div>
       </div>
