@@ -1,94 +1,74 @@
 import React from "react";
-import ceo from "../assets/team/ceo.png";
-import cto from "../assets/team/cto.png";
-import manger from "../assets/team/manager.png";
-import t1 from "../assets/team/t1.png";
-import t2 from "../assets/team/t2.png";
-import t3 from "../assets/team/t3.png";
-import t4 from "../assets/team/t4.png";
-import t5 from "../assets/team/t5.png";
+import ce from "../assets/team/ce.png";
+import cl from "../assets/team/cl.png";
+import man from "../assets/team/man.png";
+import data from "../assets/team/data.png";
+import dev1 from "../assets/team/dev1.png";
+import dev2 from "../assets/team/dev2.png";
+import founder from "../assets/team/founder.png";
+import market from "../assets/team/market.png";
 
 interface TeamMember {
   name: string;
   position: string;
   image: string;
+  tag: string;
 }
 
 const teamMembers: TeamMember[] = [
-  {
-    name: "John Doe",
-    position: "Founder & CEO",
-    image: ceo,
-  },
-  {
-    name: "Ryan Smith",
-    position: "CTO",
-    image: cto,
-  },
-  {
-    name: "Darren Young",
-    position: "General Manager",
-    image: manger,
-  },
-  {
-    name: "Sami Adnan",
-    position: "SEO Specialist",
-    image: t1,
-  },
-  {
-    name: "Steve Gerrard",
-    position: "Data Analyst",
-    image: t2,
-  },
-  {
-    name: "Daniel Cole",
-    position: "Marketing Specialist",
-    image: t3,
-  },
-  {
-    name: "Didier James",
-    position: "Marketing Specialist",
-    image: t4,
-  },
-  {
-    name: "Fede Diaz",
-    position: "SEO Specialist",
-    image: t5,
-  },
+  { name: "John Doe", position: "Founder", image: founder, tag: "John" },
+  { name: "Ryan Smith", position: "Chief Executive", image: ce, tag: "Ryan" },
+  { name: "Darren Young", position: "Manager", image: man, tag: "Darren" },
+  { name: "Sami Adnan", position: "Creative Lead", image: cl, tag: "Sami" },
+  { name: "Steve Gerrard", position: "Data Analyst", image: data, tag: "Steve" },
+  { name: "Daniel Cole", position: "Marketing Head", image: market, tag: "Dani" },
+  { name: "Didier James", position: "Developer", image: dev1, tag: "James" },
+  { name: "Rafael Diaz", position: "Developer", image: dev2, tag: "Rafa" },
 ];
 
 const TeamMembers: React.FC = () => {
   return (
-    <div className="max-w-6xl mx-auto py-10 px-4 pb-20 dark:bg-[#1c1c1c] dark:text-white">
-      <h1 className="text-4xl font-bold pb-4">Meet Our Talented Team</h1>
-      <p className="text-gray-500 pb-8 font-normal">
-        <strong className="text-gray-800 dark:text-lime-500">
-          Discover how we can elevate your brand
-        </strong>{" "}
-        and drive measurable results. We specialize in <br /> crafting unique
-        brand experiences that resonate with your audience.
-      </p>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-56 sm:w-full mx-auto ">
-        {teamMembers.map((member, index) => (
-          <div
-            key={index}
-            className="relative bg-white rounded-3xl shadow-lg overflow-hidden"
-          >
-            <img
-              src={member.image}
-              alt={member.name}
-              className="w-full h-full object-cover"
-            />
-            <button className="absolute inset-x-0 bottom-0 bg-white bg-opacity-90 text-center py-2 border-t border-gray-200 m-4 rounded-2xl dark:bg-transparent dark:border-0">
-              <h2 className="text-lg font-semibold dark:text-white">
-                {member.name}
-              </h2>
-              <p className="text-gray-600 dark:text-gray-300">
-                {member.position}
-              </p>
-            </button>
-          </div>
-        ))}
+    <div className="bg-black">
+      <div className="max-w-6xl mx-auto py-16 px-6 text-white bg-black">
+        <h1 className="text-4xl font-bold pb-6">
+          Meet the Minds <br /> Behind AREVEI.
+        </h1>
+        <p className="text-gray-400 pb-12">
+          Discover how we can elevate your brand and drive measurable results.
+          We specialize in <br />
+          crafting unique brand experiences that resonate with your audience.
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {teamMembers.map((member, index) => (
+            <div className="flex flex-col gap-3  ">
+              <div
+                key={index}
+                className="relative bg-[#1c1c1c] rounded-2xl  shadow-lg text-center flex-col gap-4"
+              >
+                <div>
+                  <div className="relative w-full h-64 rounded-xl p-3 pb-4  ">
+                    <img
+                      src={member.image}
+                      alt={member.name}
+                      className="w-full h-full object-cover rounded-xl relative"
+                    />
+                    <h2 className="absolute left-3 top-[220px] text-lg font-light mb-3">
+                      {member.position}
+                    </h2>
+                    <span className="absolute top-2 left-2  bg-lime-500 text-black px-2 py-1 text-sm font-semibold rounded-lg">
+                      {member.tag}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div className="">
+                <button className="bg-[#1c1c1c] text-white font-medium text-lg rounded-xl p-3 w-full">
+                  {member.name}
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

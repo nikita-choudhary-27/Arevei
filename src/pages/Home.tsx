@@ -1,26 +1,20 @@
 import React from "react";
 import HeroSection from "../components/HeroSection";
-import SolutionsSection from "../components/SolutionsSection";
-import CreativeWorksSection from "../components/CreativeWorksSection";
-import TeamSection from "../components/TeamSection";
-import TestimonialsSection from "../components/TestimonialsSection";
-import PricingSection from "../components/PricingSection";
-
-import WorkShowcase from "../components/WorkShowcase";
-import Intro from "../components/Intro";
+import ContactForm from "../components/ContactForm";
+import HomeIntro from "../components/HomeIntro";
+import PeopleSay from "../components/PeopleSay";
+import Blogs from "../components/Blogs";
+import CareerBanner from "../components/CareerBanner";
 
 const Home: React.FC = () => {
   return (
     <div>
       <HeroSection />
-      <WorkShowcase />
-      <Intro/>
-      <SolutionsSection />
-      <CreativeWorksSection />
-      <TeamSection />
-      <TestimonialsSection />
-      <PricingSection />
-      
+      <HomeIntro />
+      <PeopleSay />
+      <Blogs />
+      <CareerBanner />
+      <ContactForm />
     </div>
   );
 };

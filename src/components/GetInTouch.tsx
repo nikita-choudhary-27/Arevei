@@ -15,7 +15,7 @@ const Card: React.FC<CardProps> = ({
   onClick,
 }) => {
   return (
-    <div className="border rounded-2xl p-6 w-80 h-full pb-10 shadow-md dark:bg-[#222222]">
+    <div className="border rounded-2xl p-6 w-80 h-full pb-10 shadow-md bg-[#222222]">
       <div className="w-12 h-12 p-3 bg-black rounded-full mb-4">
         <img src={image} alt="" />
       </div>
