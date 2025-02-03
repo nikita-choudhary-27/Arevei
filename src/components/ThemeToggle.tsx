@@ -10,19 +10,19 @@ const ThemeToggle: React.FC = () => {
   });
 
   // Toggle the theme on button click
-  const toggleTheme = () => {
-    const newTheme = !isDarkMode;
-    setIsDarkMode(newTheme);
+  // const toggleTheme = () => {
+  //   const newTheme = !isDarkMode;
+  //   setIsDarkMode(newTheme);
 
-    // Apply the dark class to the body and store the preference in localStorage
-    if (newTheme) {
-      document.body.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    } else {
-      document.body.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-    }
-  };
+  //   // Apply the dark class to the body and store the preference in localStorage
+  //   if (newTheme) {
+  //     document.body.classList.add("dark");
+  //     localStorage.setItem("theme", "dark");
+  //   } else {
+  //     document.body.classList.remove("dark");
+  //     localStorage.setItem("theme", "light");
+  //   }
+  // };
 
   // Sync the theme when the component mounts
   useEffect(() => {

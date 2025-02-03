@@ -8,7 +8,14 @@ import sales from "../assets/career/sales.png";
 import market from "../assets/career/market.png";
 import branding from "../assets/career/branding.png";
 
-const jobListings = [
+interface Job {
+  title: string;
+  description: string;
+  tags: string[];
+  image: string;
+}
+
+const jobListings: Job[] = [
   {
     title: "Product Designer",
     description:
@@ -53,7 +60,19 @@ const jobListings = [
   },
 ];
 
-const JobCard = ({ title, description, tags, image }) => {
+interface JobCardProps {
+  title: string;
+  description: string;
+  tags: string[];
+  image: string;
+}
+
+const JobCard: React.FC<JobCardProps> = ({
+  title,
+  description,
+  tags,
+  image,
+}) => {
   return (
     <motion.div
       className="relative rounded-xl overflow-hidden shadow-lg group"
@@ -75,13 +94,13 @@ const JobCard = ({ title, description, tags, image }) => {
             {tags.map((tag, index) => (
               <span
                 key={index}
-                className=" text-white border border-white px-3 py-1.5 text-xs rounded-full"
+                className="text-white border border-white px-3 py-1.5 text-xs rounded-full"
               >
                 {tag}
               </span>
             ))}
           </div>
-          <button className="mt-4 w-1/2  text-lime-400 py-2 rounded-full border border-lime-400 font-semibold hover:bg-lime-500 hover:text-black">
+          <button className="mt-4 w-1/2 text-lime-400 py-2 rounded-full border border-lime-400 font-semibold hover:bg-lime-500 hover:text-black">
             View Job
           </button>
         </div>
@@ -90,14 +109,11 @@ const JobCard = ({ title, description, tags, image }) => {
   );
 };
 
-const Career = () => {
+const Career: React.FC = () => {
   return (
-    <div className="bg-black ">
+    <div className="bg-black">
       <div className="bg-[#111a07] text-white min-h-screen flex flex-col items-center justify-center relative overflow-hidden px-6 text-center">
-        {/* Center dark gradient */}
         <div className="absolute inset-0 w-full h-full bg-gradient-to-b from-black via-transparent to-black opacity-10 pointer-events-none"></div>
-
-        {/* Grid */}
         <div className="absolute inset-0 w-full h-full grid grid-cols-12 grid-rows-9 pointer-events-none">
           {Array.from({ length: 12 * 9 }).map((_, i) => (
             <div key={i} className="border border-gray-600 opacity-20"></div>
@@ -128,7 +144,7 @@ const Career = () => {
           />
         </motion.div>
       </div>
-      <div className="flex flex-col px-44 mt-10">
+      <div className="flex flex-col px-44 mt-10 pb-20">
         <h2 className="text-4xl text-white mb-5 font-bold pt-4">
           View Our Open <br />
           Job Opportunities.
@@ -136,7 +152,7 @@ const Career = () => {
         <p className="text-gray-400">
           Join a team of innovators and shape the future with us. Explore
           exciting career <br /> opportunities at AREVEI and discover your
-          potential
+          potential.
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">
           {jobListings.map((job, index) => (
