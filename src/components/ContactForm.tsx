@@ -55,7 +55,7 @@ const ContactForm: React.FC = () => {
           We will get back to you within{" "}
           <span className="font-bold dark:text-lime-500">24 hours</span>
         </p>
-        <div className="flex flex-col md:flex-row gap-8">
+        <div className="flex flex-col md:flex-row gap-8 px-10 sm:px-12">
           <div>
             <form className="space-y-6" onSubmit={handleSubmit}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -132,7 +132,7 @@ const ContactForm: React.FC = () => {
               )}
             </form>
           </div>
-          <div className="bg-[#222222] rounded-xl p-3 w-1/2">
+          <div className="bg-[#222222] rounded-xl p-3 w-full md:w-1/2">
             <div className="bg-[#1c1c1c] flex justify-between items-center p-5 rounded-xl mb-3">
               <div>
                 <div className="flex gap-2">
