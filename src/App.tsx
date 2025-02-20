@@ -14,6 +14,8 @@ import Store from "./pages/Store";
 import Sidebar from "./components/Sidebar";
 import Studio from "./pages/Studio";
 import Blogs from "./pages/Blogs";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 // import Sidebar from "./components/Sidebar";
 
 const App: React.FC = () => {
@@ -30,6 +32,9 @@ const App: React.FC = () => {
           {/* Content area with margin-left to avoid overlap */}
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+
             <Route path="/Studio" element={<Studio />} />
             <Route path="/blogs" element={<Blogs />} />
             <Route path="/store" element={<Store />} />

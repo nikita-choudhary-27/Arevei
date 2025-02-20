@@ -1,12 +1,14 @@
 import React from "react";
 // import { Link, Outlet, useLocation } from "react-router-dom";
 import ThemeToggle from "./ThemeToggle";
+import { useNavigate } from "react-router-dom";
 
 const Navbar: React.FC = () => {
-  // const location = useLocation();
+   const navigate = useNavigate();
 
-  // const isActive = (path: string) => location.pathname === path;
-
+   const handleClick = () => {
+     navigate("/login"); 
+   };
   return (
     <div className="">
       
@@ -41,7 +43,7 @@ const Navbar: React.FC = () => {
 
           {/* Right Section */}
           <div className="hidden md:flex items-center space-x-4">
-            <button className=" rounded-full text-lime-400 border border-lime-400 py-1 px-5 hover:bg-lime-400 hover:text-black hover:font-medium">
+            <button onClick={handleClick} className=" rounded-full text-lime-400 border border-lime-400 py-1 px-5 hover:bg-lime-400 hover:text-black hover:font-medium">
               Login
             </button>
             <button className="bg-lime-400 text-black font-semibold py-1 px-4 rounded-full hover:bg-lime-500">
