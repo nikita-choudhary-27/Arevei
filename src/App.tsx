@@ -18,9 +18,9 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 // import Sidebar from "./components/Sidebar";
 
-import { BlogProvider } from "./context/BlogContext";
-import BlogList from "./components/BlogList";
-import BlogDetail from "./components/BlogDetail";
+// import { BlogProvider } from "./context/BlogContext";
+// import BlogList from "./components/BlogList";
+// import BlogDetail from "./components/BlogDetail";
 
 const App: React.FC = () => {
   return (
