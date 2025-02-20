@@ -18,37 +18,41 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 // import Sidebar from "./components/Sidebar";
 
+import { BlogProvider } from "./context/BlogContext";
+import BlogList from "./components/BlogList";
+import BlogDetail from "./components/BlogDetail";
+
 const App: React.FC = () => {
   return (
-    
-    <Router>
+
+      <Router>
       <div className="min-h-screen relative">
         <Navbar />
-        <div className="absolute top-12 left-0   z-10 shadow-md">
-          <Sidebar /> {/* Floating Sidebar */}
+        <div className="absolute top-12 left-0 z-10 shadow-md">
+        <Sidebar /> {/* Floating Sidebar */}
         </div>
-        <div className=" ">
-          {" "}
-          {/* Content area with margin-left to avoid overlap */}
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-
-            <Route path="/Studio" element={<Studio />} />
-            <Route path="/blogs" element={<Blogs />} />
-            <Route path="/store" element={<Store />} />
-            <Route path="/story" element={<Story />} />
-            <Route path="/career" element={<Career />} />
-            <Route path="/more" element={<More />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/contact" element={<Contact />} />
-          </Routes>
+        <div className="ml-64"> {/* Content area with margin-left to avoid overlap */}
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/studio" element={<Studio />} />
+          <Route path="/blogs" element={<Blogs />} />
+          <Route path="/store" element={<Store />} />
+          <Route path="/story" element={<Story />} />
+          <Route path="/career" element={<Career />} />
+          <Route path="/more" element={<More />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/contact" element={<Contact />} />
+          {/* <Route path="/blogs" element={<BlogList />} />
+          <Route path="/blogs/:id" element={<BlogDetail />} /> */}
+        </Routes>
         </div>
         <Footer />
       </div>
-    </Router>
+      </Router>
+
   );
 };
 
