@@ -31,7 +31,7 @@ const App: React.FC = () => {
         <div className="absolute top-12 left-0 z-10 shadow-md">
         <Sidebar /> {/* Floating Sidebar */}
         </div>
-        <div className="ml-64"> {/* Content area with margin-left to avoid overlap */}
+        <div > {/* Content area with margin-left to avoid overlap */}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
