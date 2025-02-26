@@ -1,9 +1,49 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useState } from "react";
+import axios from "axios";
+import { motion, AnimatePresence } from "framer-motion";
 import header from "../assets/blog/header.png";
 import PageLayout from "./PageLayout";
 
 const Blogs: React.FC = () => {
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [author, setAuthor] = useState("");
+
+  // Toggle function for the form
+  const toggleForm = () => {
+    setIsFormOpen(!isFormOpen);
+  };
+
+  // Handle form submission
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const token = localStorage.getItem("token");
+
+    try {
+      const res = await axios.post(
+        "http://localhost:3000/api/blogs",
+        { title, content, author },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      // if (res.status === 200) {
+        alert("Blog created successfully!");
+        setTitle("");
+        setContent("");
+        setAuthor("");
+        toggleForm(); // Close the form
+      
+    } catch (error) {
+      console.error("Error creating blog:", error);
+      alert("An error occurred. Please try again.");
+    }
+  };
+
   return (
     <div className="bg-black w-full flex flex-col items-center">
       <div className="flex flex-col-reverse md:flex-row items-center justify-center min-h-screen max-w-full bg-gradient-to-r from-blue-300 to-red-300 px-8 md:px-24 py-12">
@@ -30,6 +70,7 @@ const Blogs: React.FC = () => {
             className="text-black w-1/4 font-semibold bg-lime-400 rounded-full my-4 px-6 py-3 shadow-md hover:bg-lime-500 transition"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
+            onClick={toggleForm}
           >
             Let's Write
           </motion.button>
@@ -50,7 +91,74 @@ const Blogs: React.FC = () => {
         </motion.div>
       </div>
 
-      <PageLayout/>
+      {/* Collapsible Form with Animation */}
+      <AnimatePresence>
+        {isFormOpen && (
+          <motion.div
+            className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              className="bg-white rounded-lg shadow-lg p-8 w-11/12 md:w-1/2"
+              initial={{ y: "-100vh" }}
+              animate={{ y: 0 }}
+              exit={{ y: "-100vh" }}
+              transition={{ type: "spring", stiffness: 75 }}
+            >
+              <h2 className="text-2xl font-bold mb-4">Create a New Blog</h2>
+              <form onSubmit={handleSubmit}>
+                <input
+                  type="text"
+                  placeholder="Author Name"
+                  className="w-full p-3 mb-4 border rounded-lg"
+                  value={author}
+                  onChange={(e) => setAuthor(e.target.value)}
+                  required
+                />
+                <input
+                  type="text"
+                  placeholder="Blog Title"
+                  className="w-full p-3 mb-4 border rounded-lg"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  required
+                />
+                <textarea
+                  placeholder="Blog Content"
+                  className="w-full p-3 mb-4 border rounded-lg h-32"
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                  required
+                />
+
+                <div className="flex justify-end space-x-4">
+                  <motion.button
+                    className="bg-red-500 text-white rounded-lg px-6 py-2"
+                    type="button"
+                    onClick={toggleForm}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    Cancel
+                  </motion.button>
+                  <motion.button
+                    className="bg-blue-500 text-white rounded-lg px-6 py-2"
+                    type="submit"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    Submit
+                  </motion.button>
+                </div>
+              </form>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <PageLayout />
     </div>
   );
 };

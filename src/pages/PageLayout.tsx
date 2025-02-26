@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { AxiosResponse } from "axios";
 import { motion } from "framer-motion";
+import axios from "axios";
 import image from "../assets/blog/image.png";
 import copilot from "../assets/blog/copilot.png";
 import add from "../assets/blog/add.png";
@@ -15,24 +17,76 @@ const categories = [
   "Quote",
 ];
 
-const posts = Array(8).fill({
-  title: "Artificial Intelligence is on the field!",
-  author: "John Doe",
-  date: "Monday, 23 Jan",
-  likes: "428k",
-  comments: "122k",
-  img: image,
-});
+interface Blog {
+  _id: string;
+  title: string;
+  content: string;
+  author: string;
+  date: string;
+  image?: string;
+  likes: number;
+  comments: Comment[];
+}
+
+interface Comment {
+  text: string;
+}
 
 const PageLayout: React.FC = () => {
-  const [activeCategory, setActiveCategory] = useState<string>("Latest");
+  const [activeCategory, setActiveCategory] = useState("Latest");
+  const [blogs, setBlogs] = useState<Blog[]>([]);
+  const [selectedBlog, setSelectedBlog] = useState<Blog | null>(null);
+  const [comments, setComments] = useState<Comment[]>([]);
+  const [newComment, setNewComment] = useState("");
+
+  const fetchBlogs = async (): Promise<void> => {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await axios.get("http://localhost:3000/api/blogs", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setBlogs(res.data);
+    } catch (error) {
+      console.error("Error fetching blogs:", error);
+    }
+  };
+
+  const fetchBlogDetails = async (id: string): Promise<void> => {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await axios.get(`http://localhost:3000/api/blogs/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setSelectedBlog(res.data);
+      setComments(res.data.comments);
+    } catch (error) {
+      console.error("Error fetching blog details:", error);
+    }
+  };
+
+  const addComment = async (id: string): Promise<void> => {
+    try {
+      const token = localStorage.getItem("token");
+      await axios.post(
+        `http://localhost:3000/api/blogs/${id}/comment`,
+        { comment: newComment },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setNewComment("");
+      fetchBlogDetails(id);
+    } catch (error) {
+      console.error("Error adding comment:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchBlogs();
+  }, []);
 
   return (
     <div className="bg-black text-white min-h-screen p-4 md:p-10">
-      {/* Header Section */}
       <h1 className="text-4xl font-bold mb-4">Top Picks From This Week</h1>
 
-      {/* Category Tags */}
       <div className="flex flex-wrap gap-4 mb-8">
         {categories.map((category) => (
           <motion.button
@@ -51,41 +105,68 @@ const PageLayout: React.FC = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Main Content Section */}
         <div className="lg:col-span-2">
-          {posts.map((post, index) => (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              key={index}
-              className="flex items-start bg-black p-4 rounded-xl mb-6 hover:shadow-xl transition-shadow"
-            >
-              <img
-                src={post.img}
-                alt="Post thumbnail"
-                className="w-24 h-24 md:w-32 md:h-32 object-cover rounded-xl mr-4"
-              />
-              <div className="flex-1">
-                <h2 className="text-xl font-bold mb-1">{post.title}</h2>
-                <p className="text-sm text-gray-400 mb-2">
-                  {post.author} • {post.date}
-                </p>
-                <div className="flex justify-between text-sm text-gray-500">
-                  <span>{post.likes} Likes</span>
-                  <span>{post.comments} Comments</span>
-                  <button className="text-gray-300 hover:text-white">
-                    Save
-                  </button>
+          {!selectedBlog &&
+            blogs.map((blog, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="cursor-pointer flex items-start bg-black p-4 rounded-xl mb-6 hover:shadow-xl transition-shadow"
+                onClick={() => fetchBlogDetails(blog._id)}
+              >
+                <img
+                  src={blog.image || image}
+                  alt="Post thumbnail"
+                  className="w-24 h-24 md:w-32 md:h-32 object-cover rounded-xl mr-4"
+                />
+                <div className="flex-1">
+                  <h2 className="text-xl font-bold mb-1">{blog.title}</h2>
+                  <p className="text-sm text-gray-400 mb-2">
+                    {blog.author} • {new Date(blog.date).toDateString()}
+                  </p>
+                  <div className="text-sm text-gray-500">
+                    <span>
+                      {blog.likes} 0 Likes • {blog.comments.length} Comments
+                    </span>
+                  </div>
                 </div>
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            ))}
+
+          {selectedBlog && (
+            <div className="p-4 bg-[#1f1f1f] rounded-xl">
+              <h2 className="text-2xl font-bold mb-4">{selectedBlog.title}</h2>
+              <p className="mb-4">{selectedBlog.content}</p>
+
+              <h3 className="text-xl font-semibold mb-2">Comments:</h3>
+              <ul className="mb-4">
+                {comments.map((comment, index) => (
+                  <li key={index} className="text-gray-400 mb-2">
+                    {comment.text}
+                  </li>
+                ))}
+              </ul>
+
+              <input
+                type="text"
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+                placeholder="Add a comment..."
+                className="w-full p-2 rounded mb-2 text-black"
+              />
+              <button
+                onClick={() => addComment(selectedBlog._id)}
+                className="bg-lime-400 text-black px-4 py-2 rounded"
+              >
+                Comment
+              </button>
+            </div>
+          )}
         </div>
 
-        {/* Sidebar Section */}
         <div className="space-y-8">
-          {/* Advertisement Card */}
           <div className="rounded-xl text-center relative">
             <img src={copilot} alt="" className="w-full rounded-xl" />
             <div className="bg-lime-400 text-black font-semibold p-3 rounded-2xl absolute z-10 right-2 bottom-3">
@@ -93,27 +174,10 @@ const PageLayout: React.FC = () => {
             </div>
           </div>
 
-          {/* Trending Tags */}
-          <div className="bg-[#1f1f1f] p-6 rounded-xl">
-            <h3 className="text-xl font-bold mb-4">Trending Tags</h3>
-            <ul className="space-y-2">
-              {categories.map((tag) => (
-                <li
-                  key={tag}
-                  className="text-gray-400 hover:text-white cursor-pointer"
-                  onClick={() => setActiveCategory(tag)}
-                >
-                  {tag}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Leaderboard */}
           <div className="bg-[#1f1f1f] p-6 rounded-xl">
             <h3 className="text-xl font-bold mb-4">Leaderboard</h3>
             <ul className="space-y-2">
-              {posts.slice(0, 5).map((post, index) => (
+              {blogs.slice(0, 5).map((blog, index) => (
                 <li
                   key={index}
                   className="flex items-center gap-4 text-gray-400 hover:text-white"
@@ -123,18 +187,10 @@ const PageLayout: React.FC = () => {
                     alt=""
                     className="w-10 h-10 object-cover rounded-full"
                   />
-                  {post.author} - Top {index + 1}
+                  {blog.author}
                 </li>
               ))}
             </ul>
-          </div>
-
-          {/* Another Ad */}
-          <div className="rounded-xl text-center relative">
-            <img src={add} alt="" className="w-full rounded-xl" />
-            <div className="bg-lime-400 text-black font-semibold p-3 rounded-2xl absolute z-10 right-2 bottom-3">
-              AD
-            </div>
           </div>
         </div>
       </div>
