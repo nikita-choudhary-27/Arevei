@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { AxiosResponse } from "axios";
+
 import { motion } from "framer-motion";
 import axios from "axios";
 import image from "../assets/blog/image.png";
 import copilot from "../assets/blog/copilot.png";
-import add from "../assets/blog/add.png";
+
 import photo from "../assets/blog/photo.png";
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 import { toast } from "react-toastify";
