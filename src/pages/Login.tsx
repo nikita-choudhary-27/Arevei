@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import login from "../assets/login/login.png";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isChecked, setIsChecked] = useState(false);
+
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   const handleClick = () => {
     navigate("/signup");
@@ -15,7 +18,7 @@ const Login: React.FC = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/auth/login", {
+      const response = await fetch(`${backendUrl}/api/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -27,7 +30,6 @@ const Login: React.FC = () => {
 
       if (response.ok) {
         toast.success("Login successful!");
-        // Save token to localStorage or state management
         localStorage.setItem("token", data.token);
         navigate("/");
       } else {
@@ -40,6 +42,7 @@ const Login: React.FC = () => {
 
   return (
     <div className="bg-black min-h-screen flex pl-20">
+      <ToastContainer position="top-right" autoClose={3000} />
       {/* Image Section */}
       <div className="w-1/2 hidden md:flex items-center justify-center ">
         <img src={login} alt="Login Illustration" className="max-w-full" />
@@ -96,8 +99,13 @@ const Login: React.FC = () => {
         {/* Remember Me & Forgot Password */}
         <div className="w-full flex justify-between text-sm text-gray-300 mb-8">
           <label className="flex items-center gap-2">
-            <input type="checkbox" className="accent-lime-400 " />
-            Remember me
+            <input
+              type="checkbox"
+              className="accent-lime-400"
+              checked={isChecked}
+              onChange={() => setIsChecked(!isChecked)}
+            />
+            Remember me (Compulsory)
           </label>
           <p className="text-lime-400 cursor-pointer hover:underline">
             Forgot Password?
@@ -107,7 +115,10 @@ const Login: React.FC = () => {
         {/* Sign In Button */}
         <button
           onClick={handleLogin}
-          className="w-full bg-lime-400 text-black p-3 rounded-full font-bold transition-all hover:bg-lime-500"
+          className={`w-full bg-lime-400 text-black p-3 rounded-full font-bold transition-all hover:bg-lime-500 ${
+            !isChecked && "opacity-50 cursor-not-allowed"
+          }`}
+          disabled={!isChecked}
         >
           Sign In
         </button>

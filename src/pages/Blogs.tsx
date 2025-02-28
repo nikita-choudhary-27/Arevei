@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import header from "../assets/blog/header.png";
 import PageLayout from "./PageLayout";
 
@@ -9,6 +11,7 @@ const Blogs: React.FC = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [author, setAuthor] = useState("");
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   // Toggle function for the form
   const toggleForm = () => {
@@ -22,7 +25,7 @@ const Blogs: React.FC = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/blogs",
+        `${backendUrl}/api/blogs`,
         { title, content, author },
         {
           headers: {
@@ -31,16 +34,18 @@ const Blogs: React.FC = () => {
         }
       );
 
-      // if (res.status === 200) {
-        alert("Blog created successfully!");
+      if (res.status === 201 || res.status === 200) {
+        toast.success("Blog created successfully!");
         setTitle("");
         setContent("");
         setAuthor("");
         toggleForm(); // Close the form
-      
+      } else {
+        toast.error("Failed to create blog. Please try again.");
+      }
     } catch (error) {
       console.error("Error creating blog:", error);
-      alert("An error occurred. Please try again.");
+      toast.error("An error occurred. Please try again.");
     }
   };
 
@@ -159,6 +164,9 @@ const Blogs: React.FC = () => {
       </AnimatePresence>
 
       <PageLayout />
+
+      {/* Toast Container */}
+      <ToastContainer />
     </div>
   );
 };

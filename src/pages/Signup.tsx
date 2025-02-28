@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import signup from "../assets/login/signup.png";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Signup: React.FC = () => {
   const navigate = useNavigate();
@@ -9,14 +11,25 @@ const Signup: React.FC = () => {
     email: "",
     password: "",
   });
+  const [isChecked, setIsChecked] = useState(false);
 
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsChecked(e.target.checked);
+  };
+
   const handleSubmit = async () => {
+    if (!isChecked) {
+      toast.error("Please agree to the Terms and Conditions!");
+      return;
+    }
+
     try {
-      const response = await fetch("http://localhost:3000/api/auth/signup", {
+      const response = await fetch(`${backendUrl}/api/auth/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -25,19 +38,21 @@ const Signup: React.FC = () => {
       });
 
       if (response.ok) {
-        navigate("/login");
+        toast.success("Signup successful!");
+        setTimeout(() => navigate("/login"), 2000); // Navigate after 2 seconds
       } else {
-        console.error("Signup failed");
+        toast.error("Signup failed. Please try again.");
       }
     } catch (error) {
       console.error("Error during signup:", error);
+      toast.error("An error occurred. Please try again later.");
     }
   };
 
   return (
     <div className="bg-black min-h-screen flex pl-20">
       {/* Image Section */}
-      <div className="w-1/2 hidden md:flex items-center justify-center ">
+      <div className="w-1/2 hidden md:flex items-center justify-center">
         <img src={signup} alt="Login Illustration" className="max-w-full" />
       </div>
 
@@ -63,7 +78,7 @@ const Signup: React.FC = () => {
 
         {/* Username Input */}
         <div className="w-full mb-4">
-          <label htmlFor="user" className="text-white block text-left mb-1">
+          <label htmlFor="name" className="text-white block text-left mb-1">
             Username
           </label>
           <input
@@ -109,10 +124,14 @@ const Signup: React.FC = () => {
         {/* Terms and Conditions */}
         <div className="w-full flex justify-between text-sm text-gray-300 mb-8">
           <label className="flex items-center gap-2">
-            <input type="checkbox" className="accent-lime-400 " />I agree with
-            the
+            <input
+              type="checkbox"
+              className="accent-lime-400"
+              checked={isChecked}
+              onChange={handleCheckboxChange}
+            />
+            I agree with the
             <span className="text-lime-400 cursor-pointer hover:underline">
-              {" "}
               Terms and Conditions
             </span>
           </label>
@@ -126,6 +145,20 @@ const Signup: React.FC = () => {
           Sign Up
         </button>
       </div>
+
+      {/* Toast Container */}
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={true}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
     </div>
   );
 };

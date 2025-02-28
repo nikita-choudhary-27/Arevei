@@ -6,6 +6,9 @@ import image from "../assets/blog/image.png";
 import copilot from "../assets/blog/copilot.png";
 import add from "../assets/blog/add.png";
 import photo from "../assets/blog/photo.png";
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
+import { toast } from "react-toastify";
+
 
 const categories = [
   "Latest",
@@ -39,45 +42,52 @@ const PageLayout: React.FC = () => {
   const [comments, setComments] = useState<Comment[]>([]);
   const [newComment, setNewComment] = useState("");
 
+
+
   const fetchBlogs = async (): Promise<void> => {
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.get("http://localhost:3000/api/blogs", {
+      const res = await axios.get(`${backendUrl}/api/blogs`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setBlogs(res.data);
     } catch (error) {
       console.error("Error fetching blogs:", error);
+      toast.error("Failed to fetch blogs. Please try again.");
     }
   };
 
   const fetchBlogDetails = async (id: string): Promise<void> => {
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.get(`http://localhost:3000/api/blogs/${id}`, {
+      const res = await axios.get(`${backendUrl}/api/blogs/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setSelectedBlog(res.data);
       setComments(res.data.comments);
     } catch (error) {
       console.error("Error fetching blog details:", error);
+      toast.error("Failed to load blog details.");
     }
   };
 
-  const addComment = async (id: string): Promise<void> => {
-    try {
-      const token = localStorage.getItem("token");
-      await axios.post(
-        `http://localhost:3000/api/blogs/${id}/comment`,
-        { comment: newComment },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      setNewComment("");
-      fetchBlogDetails(id);
-    } catch (error) {
-      console.error("Error adding comment:", error);
-    }
-  };
+const addComment = async (id: string): Promise<void> => {
+  try {
+    const token = localStorage.getItem("token");
+    await axios.post(
+      `${backendUrl}/api/blogs/${id}/comment`,
+      { comment: newComment },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    setNewComment("");
+    fetchBlogDetails(id);
+    toast.success("Comment added successfully!");
+  } catch (error) {
+    console.error("Error adding comment:", error);
+    toast.error("Failed to add comment. Please try again.");
+  }
+};
+
 
   useEffect(() => {
     fetchBlogs();
